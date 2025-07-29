@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rewards Redemption Site</title>
+    <!-- Favicon -->
+    <link rel="icon" href="https://raw.githubusercontent.com/KINGSHUBHAM-tech/free-fire-redeemption-pweb/main/8f232543daadd3f596b59375a4fe90aa.jpg" type="image/jpeg">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Custom Font: Noto Sans TC -->
+    <style>
+        /* Define the Noto Sans TC font */
+        @font-face {
+            font-family: 'Noto Sans TC';
+            src: url('https://fonts.gstatic.com/s/notosanstc/v37/-nFuOG829Oofr2wohFbTp9ifNAn722rq0MXz76Cy_C8mrWSt1KeqzFVoizG-KdWhyhvKuGOf8EUcrq3YKp7nxxk.7.woff2') format('woff2');
+            font-weight: 400; /* Regular */
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Noto Sans TC';
+            src: url('https://fonts.gstatic.com/s/notosanstc/v37/-nFuOG829Oofr2wohFbTp9ifNAn722rq0MXz76Cy_C8mrWSt1KeqzFVoizG-KdWhyhvKuGOf8EUcrq3YKp7nxxk.7.woff2') format('woff2');
+            font-weight: 600; /* Semi-bold */
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Noto Sans TC';
+            src: url('https://fonts.gstatic.com/s/notosanstc/v37/-nFuOG829Oofr2wohFbTp9ifNAn722rq0MXz76Cy_C8mrWSt1KeqzFVoizG-KdWhyhvKuGOf8EUcrq3YKp7nxxk.7.woff2') format('woff2');
+            font-weight: 700; /* Bold */
+            font-style: normal;
+        }
+
+        html, body {
+            height: 100%; /* Ensure html and body take full height */
+            overflow: hidden; /* Prevent scrolling on the entire page */
+            font-family: 'Noto Sans TC', sans-serif; /* Apply the new font globally */
+            color: white;
+        }
+
+        body {
+            /* Background image from the provided URL */
+            background-image: url('https://raw.githubusercontent.com/KINGSHUBHAM-tech/free-fire-redeemption-pweb/main/mobile-bg.jpg');
+            background-size: cover; /* Cover the entire area */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed; /* Keep background fixed during scroll (though main scroll is hidden) */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; /* Align content to the top */
+            padding-bottom: 2rem; /* Add some padding at the bottom */
+            position: relative; /* Needed for the pseudo-element overlay */
+        }
+
+        /* Darker background overlay */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7); /* Increased opacity for darker background */
+            z-index: -1; /* Place behind content */
+        }
+
+        /* Styles for the social icon images directly */
+        .social-icon-image {
+            width: 2.5rem; /* Smaller size for social icons */
+            height: 2.5rem;
+            object-fit: contain; /* Ensure the image fits within its bounds */
+            cursor: pointer;
+            transition: transform 0.2s;
+            /* Removed padding and border-radius for sharp edges */
+        }
+
+        .social-icon-image:hover {
+            transform: scale(1.05);
+        }
+
+        /* Styling for the important notice box */
+        .notice-box {
+            /* Less transparent white */
+            background-color: rgba(255, 255, 255, 0.85); /* Increased opacity */
+            border: 1px solid rgba(255, 255, 255, 0.4); /* Slightly more visible border */
+            border-radius: 0; /* Changed to sharp edges */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); /* Stronger shadow */
+            display: flex;
+            flex-direction: column; /* Allow content to stack */
+        }
+
+        .notice-title {
+            color: black; /* Remains black */
+            font-weight: 700; /* Bold */
+            margin-bottom: 1rem; /* Add space below title */
+        }
+
+        .notice-content-scrollable {
+            max-height: 121px; /* Increased by 10% from 110px */
+            overflow-y: auto; /* Enable vertical scrolling */
+            padding-right: 0.5rem; /* Space for scrollbar */
+        }
+
+        .notice-list li {
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
+            color: #333; /* Darker text for readability on white background */
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 768px) {
+            /* Use flexbox for social icons to ensure single line, with wrapping prevented */
+            .social-icons-container {
+                display: flex;
+                flex-wrap: nowrap; /* Prevent wrapping */
+                justify-content: center;
+                gap: 1rem; /* Adjusted gap to 2rem */
+                overflow-x: auto; /* Allow horizontal scrolling if necessary, though smaller size should prevent it */
+                padding-bottom: 0.5rem; /* Add padding for scrollbar if present */
+            }
+            .social-icon-image {
+                flex-shrink: 0; /* Prevent shrinking */
+            }
+            .footer-content {
+                flex-direction: column; /* Stack logo and text vertically on small screens */
+                align-items: center;
+            }
+            .footer-content img {
+                margin-right: 0; /* Remove right margin when stacked */
+                margin-bottom: 0.5rem; /* Add bottom margin for spacing */
+            }
+        }
+        /* Default flexbox for social icons for all screen sizes for consistent single-line behavior */
+        .social-icons-container {
+            display: flex;
+            flex-wrap: nowrap; /* Prevent wrapping by default */
+            justify-content: center;
+            gap: 1rem; /* Adjusted gap to 2rem */
+        }
+
+        /* Styles for the header with the top_teeth.png background */
+        .header-top-banner {
+            background-image: none; /* Removed background image */
+            background-color: transparent; /* Ensure no background color */
+            height: 60px; /* Keep original height */
+            display: flex; /* Ensure flex properties apply */
+            align-items: center; /* Vertically align content */
+            padding: 0; /* Removed horizontal padding for extreme positioning */
+        }
+
+        /* Styles for the header button (STORE) */
+        .header-store-button {
+            border-radius: 0.25rem; /* Slightly smooth edges for the button */
+        }
+
+        /* Generic Modal specific styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Close button for all modals */
+        .modal-close-btn {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: white; /* Default for dark modals */
+            cursor: pointer;
+        }
+        .google-modal-content .modal-close-btn,
+        .apple-modal-content .modal-close-btn,
+        .x-modal-content .modal-close-btn { /* Added for X modal */
+            color: #5f6368; /* Darker color for light modals */
+        }
+
+
+        /* Common Input/Button Styles for Modals */
+        .modal-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            margin-bottom: 1rem;
+            border-radius: 0.5rem; /* Keeping rounded for inputs for usability */
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .modal-main-btn {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 0.5rem; /* Keeping rounded for buttons for usability */
+            font-weight: bold;
+            font-size: 1.125rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .modal-secondary-link {
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .error-message {
+            color: #ff4d4d;
+            font-size: 0.85rem;
+            margin-top: -0.5rem;
+            margin-bottom: 1rem;
+            text-align: left;
+            width: 100%;
+        }
+
+
+        /* Facebook Modal specific styles */
+        .fb-modal-content {
+            background-color: #222; /* Dark background for the form */
+            padding: 2rem;
+            border-radius: 0.75rem;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+        }
+        .fb-input {
+            border: 1px solid #444;
+            background-color: #333;
+            color: white;
+        }
+        .fb-input:focus {
+            border-color: #1877f2; /* Facebook blue on focus */
+        }
+        .fb-login-btn {
+            background-color: #1877f2;
+            color: white;
+        }
+        .fb-login-btn:hover {
+            background-color: #166fe5;
+        }
+        .fb-link {
+            color: #1877f2;
+        }
+        .fb-link:hover {
+            text-decoration: underline;
+        }
+        .fb-create-account-btn {
+            background-color: transparent;
+            border: 1px solid #444;
+            color: #1877f2;
+            margin-top: 2rem;
+        }
+        .fb-create-account-btn:hover {
+            background-color: rgba(24, 119, 242, 0.1);
+        }
+        .meta-logo {
+            margin-top: 2rem;
+            color: #888;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+        }
+        .meta-logo svg {
+            margin-right: 0.25rem;
+        }
+
+        /* Google Modal specific styles */
+        .google-modal-content {
+            background-color: white;
+            color: #202124;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .google-modal-content .modal-close-btn {
+            color: #5f6368;
+        }
+        .google-logo {
+            margin-bottom: 1.5rem;
+        }
+        .google-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #202124;
+        }
+        .google-subtitle {
+            font-size: 1rem;
+            color: #5f6368;
+            margin-bottom: 1.5rem;
+        }
+        .google-input {
+            border: 1px solid #dadce0;
+            background-color: white;
+            color: #202124;
+        }
+        .google-input:focus {
+            border-color: #1a73e8;
+            box-shadow: 0 0 0 1px #1a73e8;
+        }
+        .google-form-footer {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+        }
+        .google-next-btn {
+            background-color: #1a73e8;
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 0.25rem;
+            font-weight: 500;
+        }
+        .google-next-btn:hover {
+            background-color: #166cd7;
+        }
+        .google-forgot-link, .google-create-link {
+            color: #1a73e8;
+            font-size: 0.875rem;
+            text-decoration: none;
+        }
+        .google-forgot-link {
+            text-align: left;
+            width: 100%;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .google-create-link {
+            margin-top: 0;
+        }
+        .google-create-link:hover {
+            text-decoration: underline;
+        }
+        .google-info-text {
+            font-size: 0.8rem;
+            color: #5f6368;
+            margin-top: 1.5rem;
+            text-align: left;
+            width: 100%;
+        }
+
+        /* VK Modal specific styles */
+        .vk-modal-content {
+            background-color: white;
+            color: #202124;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .vk-modal-content .modal-close-btn {
+            color: #5f6368;
+        }
+        .vk-logo-text {
+            font-family: 'Noto Sans TC', sans-serif; /* Apply new font */
+            font-weight: bold;
+            font-size: 2.5rem;
+            color: #222;
+            margin-bottom: 1.5rem;
+        }
+        .vk-logo-text .fab {
+            color: #4a76a8;
+            margin-right: 0.5rem;
+        }
+        .vk-input {
+            border: 1px solid #e0e0e0;
+            background-color: #f0f2f5;
+            color: #333;
+            margin-bottom: 1rem;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        .vk-input:focus {
+            border-color: #4a76a8;
+            box-shadow: 0 0 0 1px #4a76a8;
+            background-color: white;
+        }
+        .vk-login-btn {
+            background-color: #4a76a8;
+            color: white;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+        .vk-login-btn:hover {
+            background-color: #3a6698;
+        }
+        .vk-link {
+            color: #4a76a8;
+            font-size: 0.9rem;
+            text-decoration: none;
+            margin-top: 1rem;
+        }
+        .vk-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Apple Modal specific styles */
+        .apple-modal-content {
+            background-color: white;
+            color: #1d1d1f;
+            padding: 2.5rem 2rem;
+            border-radius: 0.75rem;
+            width: 90%;
+            max-width: 420px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .apple-modal-content .modal-close-btn {
+            color: #5f6368;
+        }
+        .apple-logo {
+            height: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .apple-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: #1d1d1f;
+            margin-bottom: 0.5rem;
+        }
+        .apple-subtitle {
+            font-size: 1rem;
+            color: #5f6368;
+            margin-bottom: 1.5rem;
+        }
+        .apple-input {
+            border: 1px solid #d2d2d7;
+            background-color: #f5f5f7;
+            color: #1d1d1f;
+            padding: 0.8rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+        }
+        .apple-input:focus {
+            border-color: #007aff;
+            box-shadow: 0 0 0 1px #007aff;
+        }
+        .apple-login-btn {
+            background-color: #007aff;
+            color: white;
+            padding: 0.8rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+        }
+        .apple-login-btn:hover {
+            background-color: #006ee6;
+        }
+        .apple-link {
+            color: #007aff;
+            font-size: 0.9rem;
+            text-decoration: none;
+            margin-top: 1rem;
+        }
+        .apple-link:hover {
+            text-decoration: underline;
+        }
+        .apple-info-text {
+            font-size: 0.8rem;
+            color: #86868b;
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+        /* X (Twitter) Modal specific styles */
+        .x-modal-content {
+            background-color: black;
+            color: white;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .x-modal-content .modal-close-btn {
+            color: white;
+        }
+        .x-logo {
+            height: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .x-title {
+            font-size: 1.75rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: white;
+        }
+        .x-social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 9999px;
+            background-color: white;
+            color: black;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            border: 1px solid #e0e0e0;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .x-social-btn:hover {
+            background-color: #f0f2f5;
+        }
+        .x-social-btn img {
+            height: 1.25rem;
+            width: 1.25rem;
+            margin-right: 0.75rem;
+        }
+        .x-separator {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            margin: 1.5rem 0;
+            color: #71767b;
+        }
+        .x-separator::before, .x-separator::after {
+            content: '';
+            flex-grow: 1;
+            height: 1px;
+            background-color: #2f3336;
+        }
+        .x-separator span {
+            padding: 0 0.5rem;
+        }
+        .x-input {
+            border: 1px solid #2f3336;
+            background-color: #000;
+            color: white;
+            padding: 0.8rem 1rem;
+            border-radius: 0.25rem;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .x-input:focus {
+            border-color: #1d9bf0;
+            box-shadow: 0 0 0 1px #1d9bf0;
+        }
+        .x-next-btn {
+            background-color: white;
+            color: black;
+            padding: 0.8rem 1rem;
+            border-radius: 9999px;
+            font-weight: bold;
+            margin-bottom: 0.75rem;
+        }
+        .x-next-btn:hover {
+            background-color: #e6e6e6;
+        }
+        .x-forgot-password-btn {
+            background-color: transparent;
+            border: 1px solid #536471;
+            color: white;
+            padding: 0.8rem 1rem;
+            border-radius: 9999px;
+            font-weight: bold;
+        }
+        .x-forgot-password-btn:hover {
+            background-color: rgba(29, 155, 240, 0.1);
+        }
+        .x-signup-link {
+            color: #1d9bf0;
+            font-size: 0.9rem;
+            margin-top: 2rem;
+            text-decoration: none;
+        }
+        .x-signup-link:hover {
+            text-decoration: underline;
+        }
+
+
+        /* Custom Message Box Styles */
+        .custom-message-box {
+            position:
